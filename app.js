@@ -33,18 +33,22 @@ var createNewTaskElement=function(taskString){
     var deleteButtonImg=document.createElement("img");//delete button image
 
     label.innerText=taskString;
-    label.className='task';
+    label.className='task task-label';
 
     //Each elements, needs appending
+    listItem.className="task-item";
+
     checkBox.type="checkbox";
+    checkBox.className="checkbox";
     editInput.type="text";
-    editInput.className="task";
+    editInput.className="input-text task";
 
     editButton.innerText="Edit"; //innerText encodes special characters, HTML does not.
-    editButton.className="edit";
+    editButton.className="button edit";
 
-    deleteButton.className="delete";
+    deleteButton.className="button delete";
     deleteButtonImg.src='./remove.svg';
+    deleteButtonImg.className="button__img";
     deleteButton.appendChild(deleteButtonImg);
 
 
@@ -85,7 +89,7 @@ var editTask=function(){
     var editInput=listItem.querySelector('input[type=text]');
     var label=listItem.querySelector("label");
     var editBtn=listItem.querySelector(".edit");
-    var containsClass=listItem.classList.contains("editMode");
+    var containsClass=listItem.classList.contains("edit-mode");
     //If class of the parent is .editmode
     if(containsClass){
 
@@ -99,7 +103,7 @@ var editTask=function(){
     }
 
     //toggle .editmode on the parent.
-    listItem.classList.toggle("editMode");
+    listItem.classList.toggle("edit-mode");
 };
 
 
@@ -118,9 +122,10 @@ var deleteTask=function(){
 //Mark task completed
 var taskCompleted=function(){
     console.log("Complete Task...");
-
     //Append the task list item to the #completed-tasks
     var listItem=this.parentNode;
+    var label = listItem.querySelector(".task-label");
+    label.classList.add("task-label-complete");
     completedTasksHolder.appendChild(listItem);
     bindTaskEvents(listItem, taskIncomplete);
 
@@ -129,10 +134,12 @@ var taskCompleted=function(){
 
 var taskIncomplete=function(){
     console.log("Incomplete Task...");
-//Mark task as incomplete.
+    //Mark task as incomplete.
     //When the checkbox is unchecked
     //Append the task list item to the #incompleteTasks.
     var listItem=this.parentNode;
+    var label = listItem.querySelector(".task-label");
+    label.classList.remove("task-label-complete");
     incompleteTaskHolder.appendChild(listItem);
     bindTaskEvents(listItem,taskCompleted);
 }
